@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Phrase } from "./phrase.entity"
-import { Repository } from "typeorm"
+import { IsNull, Repository } from "typeorm"
 import { CreatePhraseDto } from "./dto/createPhrase.dto"
 
 @Injectable()
@@ -37,11 +37,11 @@ export class AppService {
     async createPhrase(createPhraseDto: CreatePhraseDto) {
         const phrase = new Phrase()
         phrase.text = createPhraseDto.text
-        await this.phrasesRepository.save(phrase)
-
         const prevPhrase = await this.phrasesRepository.findOne({
-            where: { next: undefined },
+            where: { next: IsNull() },
         })
+
+        await this.phrasesRepository.save(phrase)
 
         if (!prevPhrase) {
             return phrase
