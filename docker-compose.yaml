@@ -1,0 +1,38 @@
+services:
+  frontend:
+    container_name: tipezylla_frontend
+    build:
+      context: ./frontend/
+    ports: 
+      - 4173:4173
+    depends_on:
+      - backend
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+
+  backend:
+    container_name: tipezylla_backend
+    build:
+      context: ./backend/
+    ports:
+      - "3000:3000"
+    environment:
+      DB_PORT: ${DB_PORT}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+    depends_on:
+      - db
+
+  db:
+    container_name: tipezylla_db
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE}
+
