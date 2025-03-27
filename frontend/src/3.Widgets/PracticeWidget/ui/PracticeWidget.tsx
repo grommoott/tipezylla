@@ -22,7 +22,7 @@ export const PracticeWidget = () => {
 
         ;(async () => {
             const phrase = await getPhrase({
-                id: currentPhrase?.next || undefined,
+                id: currentPhrase?.next?.id || undefined,
             })
 
             setNextPhraseNeeded(false)

@@ -10,7 +10,10 @@ export const App: FC = () => {
             className={
                 "bg-zinc-900 h-full w-full flex flex-col items-center justify-center"
             }
-            onKeyDown={onGlobalKeyDown}
+            onKeyDown={(e) => {
+                onGlobalKeyDown(e)
+                e.preventDefault()
+            }}
         >
             <div className={"flex-[1]"} />
             <PracticeWidget />
